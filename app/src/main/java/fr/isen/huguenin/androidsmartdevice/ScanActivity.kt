@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import fr.isen.huguenin.androidsmartdevice.databinding.ActivityMainBinding
 import fr.isen.huguenin.androidsmartdevice.databinding.ActivityScanBinding
 
@@ -28,10 +29,11 @@ class ScanActivity : AppCompatActivity() {
     }
     private val requestPermissionLauncher =
         registerForActivityResult(
-            ActivityResultContracts.RequestPermission()
+            ActivityResultContracts.RequestMultiplePermissions()
         ) {
-            if (it) {
+            if (allPermissionsGranted()) {
                 Log.i("Permission: ", "Granted")
+
             } else {
                 Log.i("Permission: ", "Denied")
             }
@@ -46,7 +48,10 @@ class ScanActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         //StopBluetoothKO()
+
         ClickOn()
+
+
 
 
 
@@ -79,10 +84,11 @@ class ScanActivity : AppCompatActivity() {
         binding.ble.visibility = View.GONE
         binding.scan.text = "LANCER SCAN BLE"
 
+        scanDeviceWithPermisions()
 
         binding.start.setOnClickListener {
             Log.e("button", "CLick sur play")
-            requestPermission()
+            //requestPermission()
             Toast.makeText(this, "Start SCAN", Toast.LENGTH_LONG).show()
             binding.scan.text = "SCAN BLE en cours"
             BluetoothActive()
@@ -104,42 +110,52 @@ class ScanActivity : AppCompatActivity() {
             Toast.makeText(this, "BLE KO", Toast.LENGTH_LONG).show()
             binding.scan.text = "Plus de Bluetooth"
             modePause()
+
         }
         else {
             modePlay()
-            scanDeviceWithPermisions()
+
         }
     }
-    
+
     private fun scanDeviceWithPermisions() {
         if(allPermissionsGranted()) {
             scanBLEDevices()
         }
         else {
             //request permission
+            requestPermission()
+            //modePause()
         }
     }
 
     private fun scanBLEDevices() {
-        TODO("Not yet implemented")
+        Toast.makeText(this, "TOUT OK", Toast.LENGTH_LONG).show()
+
     }
 
 
     private fun allPermissionsGranted(): Boolean {
         val allPermissions = gtAllPermissions()
         return allPermissions.all {
-           // varification des permissions
-            requestPermission()
+           // verification des permissions
+            false
 
         }
     }
 
     private fun gtAllPermissions(): Array<String> {
-        return arrayOf(android.Manifest.permission.BLUETOOTH_CONNECT, android.Manifest.permission.BLUETOOTH_SCAN)
+        return arrayOf(android.Manifest.permission.BLUETOOTH_CONNECT,
+                       android.Manifest.permission.BLUETOOTH_SCAN,
+                       android.Manifest.permission.BLUETOOTH,
+                       android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                       android.Manifest.permission.ACCESS_FINE_LOCATION,
+                       android.Manifest.permission.ACCESS_BACKGROUND_LOCATION
+        )
     }
 
 
-    private fun requestPermission() : Boolean {
+    private fun requestPermission() {
         val allPermissions = gtAllPermissions()
         when{
             ContextCompat.checkSelfPermission(
@@ -147,7 +163,6 @@ class ScanActivity : AppCompatActivity() {
                 allPermissions.toString()
             ) == PackageManager.PERMISSION_GRANTED -> {
                 Toast.makeText(this, "BLE CONNECT", Toast.LENGTH_LONG).show()
-                return true
             }
             ActivityCompat.shouldShowRequestPermissionRationale(
                 this,
@@ -155,12 +170,17 @@ class ScanActivity : AppCompatActivity() {
             ) -> {
                 //additional rationale should be displayed
                 Toast.makeText(this, "BLE CONNECT add", Toast.LENGTH_LONG).show()
-                return false
+
+                requestPermissionLauncher.launch(
+                    gtAllPermissions()
+                )
             }
             else -> {
                 //permission has not been asked yet
                 Toast.makeText(this, "NOT BLE CONNECT", Toast.LENGTH_LONG).show()
-                return false
+                requestPermissionLauncher.launch(
+                    gtAllPermissions()
+                )
             }
         }
 
