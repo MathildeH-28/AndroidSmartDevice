@@ -1,5 +1,6 @@
 package fr.isen.huguenin.androidsmartdevice
 
+import android.annotation.SuppressLint
 import android.bluetooth.BluetoothDevice
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
@@ -27,17 +28,20 @@ class ScanAdapter(var nom : ArrayList<BluetoothDevice>, var onDeviceClickListene
         return nom.size
     }
 
+    @SuppressLint("MissingPermission")
     override fun onBindViewHolder(holder: CellViewHolder, position: Int) {
-        holder.textView.text = nom[position].address
+        //holder.textView.text = nom[position].address
+        holder.textView.text = nom[position].name ?: "Inconnue"
         holder.itemView.setOnClickListener {
             onDeviceClickListener(nom[position])
         }
     }
 
+    @SuppressLint("MissingPermission")
     fun addDevice(device: BluetoothDevice) {
         var shouldAddDevice = true
         nom.forEachIndexed { index, bluetoothDevice ->
-            if (bluetoothDevice.address == device.address) {
+            if (bluetoothDevice.name == device.name) {
                 nom[index] = device
                 shouldAddDevice = false
             }
