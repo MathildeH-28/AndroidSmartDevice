@@ -23,18 +23,22 @@ class DeviceActivity2 : AppCompatActivity() {
         binding.led1.setOnClickListener {
             if( binding.led1.imageTintList == getColorStateList(R.color.purple_200)) {
                 binding.led1.imageTintList = getColorStateList(R.color.black)
+                binding.nb.text = "$binding.nb.text-1"
             }
             else {
                 binding.led1.imageTintList = getColorStateList(R.color.purple_200)
+                binding.nb.text = "$binding.nb.text+1"
             }
         }
 
         binding.led2.setOnClickListener {
             if( binding.led2.imageTintList == getColorStateList(R.color.purple_200)) {
                 binding.led2.imageTintList = getColorStateList(R.color.black)
+                binding.nb.text = "$binding.nb.text-1"
             }
             else {
                 binding.led2.imageTintList = getColorStateList(R.color.purple_200)
+                binding.nb.text = "$nbr++"
             }
         }
 
@@ -42,9 +46,11 @@ class DeviceActivity2 : AppCompatActivity() {
         binding.led3.setOnClickListener {
             if( binding.led3.imageTintList == getColorStateList(R.color.purple_200)) {
                 binding.led3.imageTintList = getColorStateList(R.color.black)
+                binding.nb.text = "$nbr--"
             }
             else {
                 binding.led3.imageTintList = getColorStateList(R.color.purple_200)
+                binding.nb.text = "$nbr++"
             }
         }
 
