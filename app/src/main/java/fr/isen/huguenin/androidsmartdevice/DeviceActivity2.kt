@@ -75,6 +75,8 @@ class DeviceActivity2 : AppCompatActivity() {
         binding.led1.isVisible = true
         binding.led2.isVisible = true
         binding.led3.isVisible = true
+        binding.textView3.isVisible = false
+        binding.nb.isVisible = true
     }
 
     private fun clickOnLed() {
