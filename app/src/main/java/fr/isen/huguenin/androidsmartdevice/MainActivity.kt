@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun ClickButton() {
 
-
         binding.button.setOnClickListener {
             if (bluetoothAdapter?.isEnabled == true) {
                 Toast.makeText(this, "Bluetooth OK", Toast.LENGTH_LONG).show()

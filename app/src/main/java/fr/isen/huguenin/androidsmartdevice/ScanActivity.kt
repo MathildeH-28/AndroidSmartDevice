@@ -81,7 +81,7 @@ class ScanActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.GONE
         binding.ble.visibility = View.GONE
         binding.scan.text = "LANCER SCAN BLE"
-        ClickOn()
+        clickPlayPause()
 
 
     }
@@ -98,7 +98,7 @@ class ScanActivity : AppCompatActivity() {
 
     private fun scanDeviceWithPermisions() {
         if (allPermissionsGranted()) {
-            ClickOn()
+            clickPlayPause()
         } else {
             requestPermissionLauncher.launch(
                 gtAllPermissions()
@@ -194,7 +194,7 @@ class ScanActivity : AppCompatActivity() {
         binding.ble.visibility = View.VISIBLE
     }
 
-    private fun ClickOn() {
+    private fun clickPlayPause() {
 
         binding.start.setOnClickListener {
             Log.e("button", "CLick sur play")
