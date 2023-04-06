@@ -11,12 +11,15 @@ import android.widget.ExpandableListView.OnChildClickListener
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.color.MaterialColors.getColorStateList
+import fr.isen.huguenin.androidsmartdevice.R.color.teal_200
 import fr.isen.huguenin.androidsmartdevice.databinding.CellScanBinding
 
 class ScanAdapter(var nom : ArrayList<BluetoothDevice>, var onDeviceClickListener: (BluetoothDevice) -> Unit): RecyclerView.Adapter<ScanAdapter.CellViewHolder>() {
 
     class CellViewHolder(binding: CellScanBinding) : RecyclerView.ViewHolder(binding.root) {
         val textView = binding.bleName
+       // val imageView = binding.imageView
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) : CellViewHolder {
         val binding = CellScanBinding.inflate(LayoutInflater.from(parent.context), parent, false)
